@@ -6,40 +6,21 @@
 #define MAIN_H
 #include <cstdlib>
 
-typedef  struct {
-    int id;
-    char* buffer;
-    size_t size;
-    ssize_t input_lenght;
-} InputBuffer;
+typedef enum {
+    META_COMMAND_SUCCESS,
+    META_COMMAND_UNRECOGNIZED_COMMAND
+  } MetaCommandResult;
 
-InputBuffer* create_input_buffer() {
-    InputBuffer* input_buffer = (InputBuffer*)malloc(sizeof(InputBuffer));
-    input_buffer->buffer = NULL;
-    input_buffer->size = 0;
-    input_buffer->input_lenght = 0;
+typedef enum { PREPARE_SUCCESS, PREPARE_UNRECOGNIZED_STATEMENT } PrepareResult;
 
-    return input_buffer;
-}
+typedef enum {STATEMENT_INSERT, STATEMENT_SELECT, STATEMENT_DELETE, STATEMENT_UPDATE} SelectStatement;
 
-void read_input(InputBuffer* input_buffer) {
-    ssize_t bytes_read =
-      getline(&(input_buffer->buffer), &(input_buffer->size), stdin);
+typedef struct {
+    SelectStatement type;
+} Statement;
 
-    if (bytes_read <= 0) {
-        printf("Error reading input\n");
-        exit(EXIT_FAILURE);
-    }
 
-    // Ignore trailing newline
-    input_buffer->size = bytes_read - 1;
-    input_buffer->buffer[bytes_read - 1] = 0;
-}
 
-void close_input_buffer(InputBuffer* input_buffer) {
-    delete input_buffer->buffer;
-    delete input_buffer;
-}
 
 
 #endif //MAIN_H

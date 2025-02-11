@@ -4,4 +4,5 @@ project(sqlite_clone)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sqlite_clone main.cpp
-        main.h)
+        main.h
+        buffer.h)
