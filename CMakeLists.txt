@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sqlite_clone main.cpp
         main.h
-        buffer.h)
+        buffer.h
+        btree.h)

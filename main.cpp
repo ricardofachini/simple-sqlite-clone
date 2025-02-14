@@ -1,6 +1,7 @@
 #include <iostream>
 #include "main.h"
 #include "buffer.h"
+#include "btree.h"
 
 #include <cstring>
 
@@ -25,6 +26,16 @@ PrepareResult prepare_statement(InputBuffer* input_buffer,
     return PREPARE_UNRECOGNIZED_STATEMENT;
 }
 
+void execute_statement(Statement* statement) {
+    switch (statement->type) {
+        case (STATEMENT_INSERT):
+            std::cout << "vai fazer insert" << std::endl;
+            break;
+        case (STATEMENT_SELECT):
+            std::cout << "vai fazer select" << std::endl;
+            break;
+    }
+}
 
 int main(int argc, char* argv[]) {
     std::cout << "Iniciando very light sqlite!" << std::endl;
@@ -42,6 +53,17 @@ int main(int argc, char* argv[]) {
                     continue;
             }
         }
+        Statement statement;
+        switch (prepare_statement(input_buffer, &statement)) {
+            case (PREPARE_SUCCESS):
+                break;
+            case (PREPARE_UNRECOGNIZED_STATEMENT):
+                printf("Unrecognized keyword at start of '%s'.\n",
+                    input_buffer->buffer);
+                continue;
+            }
+        execute_statement(&statement);
+        printf("Executed.\n");
     }
     std::cout << "Finalizou" << std::endl;
     return 0;
